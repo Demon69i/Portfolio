@@ -266,10 +266,12 @@ body {
 }
 
 .hero-greeting {
-    font-size: 24px;
-    font-weight: 300;
-    color: var(--text-gray);
-    margin-bottom: 10px;
+    font-size: 28px;
+    font-weight: 400;
+    color: #E0E0E0;
+    margin-bottom: 12px;
+    opacity: 0.9;
+    letter-spacing: 0.5px;
 }
 
 .hero-name {

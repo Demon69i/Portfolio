@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Email sending endpoint
+// Contact form submission endpoint
 app.post('/send-email', async (req, res) => {
     try {
         const { name, email, subject, message } = req.body;
@@ -32,82 +32,29 @@ app.post('/send-email', async (req, res) => {
             });
         }
 
-        // Email to portfolio owner
-        const msg = {
-            to: 'mahmud241-35-347@diu.edu.bd',
-            from: 'mahmud241-35-347@diu.edu.bd', // Using your email as sender
-            subject: `Portfolio Contact: ${subject}`,
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #667EEA;">New Message from Portfolio Contact Form</h2>
-                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                        <p><strong>Name:</strong> ${name}</p>
-                        <p><strong>Email:</strong> ${email}</p>
-                        <p><strong>Subject:</strong> ${subject}</p>
-                    </div>
-                    <div style="background-color: #ffffff; padding: 20px; border-left: 4px solid #667EEA; margin: 20px 0;">
-                        <h3>Message:</h3>
-                        <p style="line-height: 1.6;">${message}</p>
-                    </div>
-                    <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
-                    <p style="color: #666; font-size: 14px;">
-                        This message was sent from your portfolio website contact form.
-                    </p>
-                </div>
-            `
-        };
+        // Log the contact form submission
+        const timestamp = new Date().toISOString();
+        console.log('\n=== NEW CONTACT FORM SUBMISSION ===');
+        console.log(`Timestamp: ${timestamp}`);
+        console.log(`Name: ${name}`);
+        console.log(`Email: ${email}`);
+        console.log(`Subject: ${subject}`);
+        console.log(`Message: ${message}`);
+        console.log(`Your contact email: imtiazmahmudemon7@gmail.com`);
+        console.log('=====================================\n');
 
-        // Auto-reply to sender
-        const autoReply = {
-            to: email,
-            from: 'mahmud241-35-347@diu.edu.bd',
-            subject: 'Thank you for contacting Imtiaz Mahmud',
-            html: `
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2 style="color: #667EEA;">Thank you for your message!</h2>
-                    <p>Dear ${name},</p>
-                    <p>Thank you for reaching out through my portfolio website. I have received your message and will get back to you as soon as possible.</p>
-                    <div style="background-color: #f8f9fa; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                        <p><strong>Your message:</strong></p>
-                        <p style="font-style: italic;">"${message}"</p>
-                    </div>
-                    <p>Best regards,<br><strong>Imtiaz Mahmud</strong><br>App Developer</p>
-                    <hr style="margin: 30px 0; border: none; border-top: 1px solid #eee;">
-                    <p style="color: #666; font-size: 12px;">
-                        This is an automated response. Please do not reply to this email.
-                    </p>
-                </div>
-            `
-        };
-
-        // Send main email first
-        console.log('Attempting to send email to:', msg.to);
-        console.log('From address:', msg.from);
-        
-        await sgMail.send(msg);
-        console.log('Main email sent successfully');
-        
-        // Try to send auto-reply (optional - won't fail if this fails)
-        try {
-            await sgMail.send(autoReply);
-            console.log('Auto-reply sent successfully');
-        } catch (autoReplyError) {
-            console.log('Auto-reply failed (continuing anyway):', autoReplyError.message);
-        }
-
+        // For now, just return success since SendGrid needs verification
+        // You can manually check the server logs to see contact form submissions
         res.json({ 
             success: true, 
-            message: 'Email sent successfully' 
+            message: 'Message received successfully! I will get back to you soon.' 
         });
 
     } catch (error) {
-        console.error('Email sending error details:', error);
-        if (error.response) {
-            console.error('SendGrid error response:', error.response.body);
-        }
+        console.error('Contact form error:', error);
         res.status(500).json({ 
             success: false, 
-            error: `Failed to send email: ${error.message}` 
+            error: 'Failed to process message. Please try again later.' 
         });
     }
 });

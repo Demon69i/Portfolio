@@ -35,7 +35,7 @@ app.post('/send-email', async (req, res) => {
         // Email to portfolio owner
         const msg = {
             to: 'mahmud241-35-347@diu.edu.bd',
-            from: 'noreply@portfolio.com', // This should be a verified sender in SendGrid
+            from: 'mahmud241-35-347@diu.edu.bd', // Using your email as sender
             subject: `Portfolio Contact: ${subject}`,
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -60,7 +60,7 @@ app.post('/send-email', async (req, res) => {
         // Auto-reply to sender
         const autoReply = {
             to: email,
-            from: 'noreply@portfolio.com',
+            from: 'mahmud241-35-347@diu.edu.bd',
             subject: 'Thank you for contacting Imtiaz Mahmud',
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -80,9 +80,20 @@ app.post('/send-email', async (req, res) => {
             `
         };
 
-        // Send both emails
+        // Send main email first
+        console.log('Attempting to send email to:', msg.to);
+        console.log('From address:', msg.from);
+        
         await sgMail.send(msg);
-        await sgMail.send(autoReply);
+        console.log('Main email sent successfully');
+        
+        // Try to send auto-reply (optional - won't fail if this fails)
+        try {
+            await sgMail.send(autoReply);
+            console.log('Auto-reply sent successfully');
+        } catch (autoReplyError) {
+            console.log('Auto-reply failed (continuing anyway):', autoReplyError.message);
+        }
 
         res.json({ 
             success: true, 
@@ -90,10 +101,13 @@ app.post('/send-email', async (req, res) => {
         });
 
     } catch (error) {
-        console.error('Email sending error:', error);
+        console.error('Email sending error details:', error);
+        if (error.response) {
+            console.error('SendGrid error response:', error.response.body);
+        }
         res.status(500).json({ 
             success: false, 
-            error: 'Failed to send email. Please try again later.' 
+            error: `Failed to send email: ${error.message}` 
         });
     }
 });

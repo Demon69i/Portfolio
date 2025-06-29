@@ -144,8 +144,15 @@ function initFormHandling() {
     });
     
     // Form submission
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+        
+        // Get form data
+        const formData = new FormData(this);
+        const name = formData.get('name');
+        const email = formData.get('email');
+        const subject = formData.get('subject');
+        const message = formData.get('message');
         
         // Add loading state
         const submitButton = this.querySelector('.submit-button');
@@ -153,24 +160,58 @@ function initFormHandling() {
         submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
         submitButton.disabled = true;
         
-        // Simulate form submission (replace with actual form handling)
-        setTimeout(() => {
-            submitButton.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
-            submitButton.style.background = '#4CAF50';
+        try {
+            // Send email via API
+            const response = await fetch('/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: name,
+                    email: email,
+                    subject: subject,
+                    message: message
+                })
+            });
             
-            // Reset form after 2 seconds
+            const result = await response.json();
+            
+            if (result.success) {
+                // Success state
+                submitButton.innerHTML = '<i class="fas fa-check"></i> Message Sent!';
+                submitButton.style.background = '#4CAF50';
+                
+                // Reset form after 3 seconds
+                setTimeout(() => {
+                    contactForm.reset();
+                    submitButton.innerHTML = originalText;
+                    submitButton.style.background = '';
+                    submitButton.disabled = false;
+                    
+                    // Remove focused class from form groups
+                    document.querySelectorAll('.form-group').forEach(group => {
+                        group.classList.remove('focused');
+                    });
+                }, 3000);
+            } else {
+                throw new Error(result.error || 'Failed to send message');
+            }
+            
+        } catch (error) {
+            console.error('Error sending email:', error);
+            
+            // Error state
+            submitButton.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error - Try Again';
+            submitButton.style.background = '#f44336';
+            
+            // Reset button after 3 seconds
             setTimeout(() => {
-                contactForm.reset();
                 submitButton.innerHTML = originalText;
                 submitButton.style.background = '';
                 submitButton.disabled = false;
-                
-                // Remove focused class from form groups
-                document.querySelectorAll('.form-group').forEach(group => {
-                    group.classList.remove('focused');
-                });
-            }, 2000);
-        }, 1000);
+            }, 3000);
+        }
     });
 }
 

@@ -31,6 +31,12 @@ function initNavigation() {
                 // Update active link
                 navLinks.forEach(l => l.classList.remove('active'));
                 this.classList.add('active');
+                
+                // Close mobile menu after clicking a link
+                if (window.innerWidth <= 767) {
+                    navLinksContainer.classList.remove('active');
+                    navToggle.classList.remove('active');
+                }
             }
         });
     });

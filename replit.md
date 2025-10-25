@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a personal portfolio website for Imtiaz Mahmud, a cyber security expert. The project is a modern, visually appealing single-page application built with HTML, CSS, JavaScript, and Node.js backend. It features a responsive design with smooth animations, 3D effects, modern UI components, and functional email contact form.
+This is a personal portfolio website for Imtiaz Mahmud, a cyber security expert. The project is a modern, visually appealing single-page application built with HTML, CSS, JavaScript, and Node.js backend. It features a fully responsive design optimized for all devices (PC, Laptop, Tablet, Phones), smooth animations, 3D effects, modern UI components, and functional email contact form.
 
 ## System Architecture
 
@@ -17,6 +17,14 @@ This is a personal portfolio website for Imtiaz Mahmud, a cyber security expert.
 - **Color Scheme**: Dark theme with gradient accents (purple to pink gradients)
 - **Icons**: Font Awesome 6.4.0 for consistent iconography
 - **Animation**: CSS transitions and JavaScript-powered scroll animations
+- **Responsive Breakpoints**: 
+  - Large Desktop (1920px+)
+  - Standard Desktop (1440px - 1919px)
+  - Laptop (1024px - 1439px)
+  - Tablet Landscape (768px - 1023px)
+  - Tablet Portrait/Mobile Landscape (481px - 767px)
+  - Mobile Phones (320px - 480px)
+  - Extra Small Devices (below 320px)
 
 ## Key Components
 
@@ -70,7 +78,9 @@ This is a personal portfolio website for Imtiaz Mahmud, a cyber security expert.
 
 ## Changelog
 
-- June 29, 2025. Initial setup
+- October 25, 2025: Enhanced responsive design with comprehensive breakpoints for all device sizes (PC, Laptop, Tablet, Phones)
+- October 25, 2025: Changed portfolio from App Developer to Cyber Security Expert
+- June 29, 2025: Initial setup
 
 ## User Preferences
 

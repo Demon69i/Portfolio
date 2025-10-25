@@ -2,7 +2,7 @@
 
 ## Overview
 
-This is a personal portfolio website for Imtiaz Mahmud, an app developer. The project is a modern, visually appealing single-page application built with HTML, CSS, JavaScript, and Node.js backend. It features a responsive design with smooth animations, 3D effects, modern UI components, and functional email contact form.
+This is a personal portfolio website for Imtiaz Mahmud, a cyber security expert. The project is a modern, visually appealing single-page application built with HTML, CSS, JavaScript, and Node.js backend. It features a responsive design with smooth animations, 3D effects, modern UI components, and functional email contact form.
 
 ## System Architecture
 
